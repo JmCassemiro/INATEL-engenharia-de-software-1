@@ -18,8 +18,6 @@ convertButton.addEventListener("click", async function (event) {
   if (!result) return;
   const pairData = Object.values(result)[0];
 
-  console.log(pairData);
-
   document.getElementById("result-container").innerHTML = `
     
     <div class="conversion-result">
@@ -41,7 +39,7 @@ convertButton.addEventListener("click", async function (event) {
 
 // FUNCTIONS --------------------------------------------------------------------------------------------------------------------------
 
-async function convertValue(fromCurrency, toCurrency, value) {
+async function convertValue(fromCurrency, toCurrency) {
   try {
     const response = await axios.get(`https://economia.awesomeapi.com.br/json/last/${fromCurrency}-${toCurrency}?token=4eab173f982b18df9e08e821df1ef21d179de7eb0bf541c33d46fa36ef91faf2`);
     return response.data;
