@@ -1,17 +1,21 @@
-const form = document.getElementById("currency-converter-form");
 
-form.addEventListener("submit", async function (event) {
+
+const form = document.getElementById("currency-converter-form");
+const convertButton = document.getElementById("convert-button");
+
+convertButton.addEventListener("click", async function (event) {
   event.preventDefault();
   const value = document.getElementById("amount");
   const fromCurrency = document.getElementById("from-currency");
   const toCurrency = document.getElementById("to-currency");
 
-  if (fromCurrency === toCurrency) {
+  if (fromCurrency.value === toCurrency.value) {
     alert("Selecione moedas diferentes para conversão.");
     return;
   }
 
   const result = await convertValue(fromCurrency.value, toCurrency.value, value.value);
+  if (!result) return;
   const pairData = Object.values(result)[0];
 
   console.log(pairData);
