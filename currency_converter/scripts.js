@@ -16,6 +16,22 @@ form.addEventListener("submit", async function (event) {
 
   console.log(pairData);
 
+  document.getElementById("result-container").innerHTML = `
+    <div style="background: #f9f9f9; border-radius: 8px; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.07); max-width: 400px; margin: 24px auto;">
+      <h2 style="color: #2c3e50; margin-bottom: 16px;">Resultado da Conversão</h2>
+      <p style="font-size: 1.2em; margin-bottom: 8px;">
+        <strong>${value.value} ${pairData.code}</strong> = 
+        <strong style="color: #27ae60;">${(pairData.ask * value.value).toFixed(2)} ${pairData.codein}</strong>
+      </p>
+      <p style="margin-bottom: 8px;">
+        <span style="color: #34495e;">Taxa de câmbio:</span> <strong>${pairData.ask}</strong>
+      </p>
+      <p style="color: #7f8c8d; font-size: 0.95em;">
+        <span>Última atualização:</span> ${new Date(pairData.create_date).toLocaleString("pt-BR")}
+      </p>
+    </div>
+  `;
+
 })
 
 // FUNCTIONS --------------------------------------------------------------------------------------------------------------------------
