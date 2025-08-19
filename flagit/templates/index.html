@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>FlagIt — Adivinhe a Bandeira</title>
+    <link rel="stylesheet" href="../static/styles.css" />
+  </head>
+
+  <body>
+    <main class="card">
+      <header class="header">
+        <h1 class="title">FlagIt — Adivinhe a Bandeira</h1>
+      </header>
+      <section class="flag-wrap">
+        <img src="{{ flag_url|default('/static/flags/br.svg') }}" alt="Bandeira do país para adivinhar" />
+      </section>
+      <form id="guess-form" action="/guess" method="post" autocomplete="off">
+        <input class="input" type="text" name="answer" id="answer" placeholder="Digite o nome do país" autofocus />
+        <button class="btn" type="submit">Enviar</button>
+      </form>
+      <div class="feedback" id="feedback">{{ message|default('') }}</div>
+    </main>
+    <script>
+      const form = document.getElementById('guess-form');
+      const feedback = document.getElementById('feedback');
+      const answerInput = document.getElementById('answer');
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData = new FormData(form);
+        const payload = { answer: formData.get('answer') };
+        try {
+          const res = await fetch('/guess', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+          });
+          if (!res.ok) {
+            throw new Error('Resposta do servidor não foi ok.');
+          }
+          const data = await res.json();
+          feedback.textContent = data.message || '';
+          feedback.className = 'feedback ' + (data.correct ? 'ok' : 'bad');
+          if (data.correct) {
+            location.reload();
+          }
+        } catch (err) {
+          feedback.textContent = 'Erro ao enviar resposta. Tente novamente. (' + (err.message || err) + ')';
+          feedback.className = 'feedback bad';
+        }
+      });
+    </script>
+  </body>
+</html>
