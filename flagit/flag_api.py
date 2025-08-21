@@ -1,4 +1,3 @@
-import random
 import httpx
 
 async def get_random_flag():

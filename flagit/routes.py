@@ -19,7 +19,7 @@ async def home(request: Request):
 
     response = templates.TemplateResponse(
         "index.html",
-        {"request": request, "flag_url": flag, "streak": 0, "message": ""},
+        {"request": request, "flag_url": flag},
     )
 
     response.set_cookie(key="correct_country", value=name)
@@ -30,13 +30,13 @@ async def home(request: Request):
 @router.post("/guess")
 async def guess(request: Request):
     data = await request.json()
-    correct = request.cookies.get("correct_country")
-    print(correct.lower())
+    correct_flag = request.cookies.get("correct_country")
+    is_correct = False
 
-    if data["answer"].lower() == correct.lower():
+    if data["answer"].lower() == correct_flag.lower():
         message = "Parabéns! Você acertou!"
+        is_correct = True
     else:
-        message = f"Errado! A resposta correta era {correct}."
+        message = f"Errado! A resposta correta era {correct_flag}."
 
-    answer = data.get("answer")
-    return {"message": message, "answer": answer}
+    return {"message": message, "correct": is_correct}
