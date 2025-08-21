@@ -1,4 +1,3 @@
-import random
 from fastapi import APIRouter, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
@@ -27,15 +26,13 @@ async def home(request: Request):
 async def guess(request: Request):
     data = await request.json()
     correct_flag = request.cookies.get("correct_country")
-    is_correct = False
 
     if data["answer"].lower() == correct_flag.lower():
         message = "Parabéns! Você acertou!"
-        is_correct = True
     else:
         message = f"Errado! A resposta correta era {correct_flag}."
 
-    return {"message": message, "correct": is_correct}
+    return {"message": message}
 
 
 @router.get("/get_names")

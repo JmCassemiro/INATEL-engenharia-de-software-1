@@ -10,6 +10,8 @@ const best_streak = document.getElementById('best_streak');
 let current_streak_cookie = get_cookie("current_streak");
 let best_streak_cookie = get_cookie("best_streak");
 
+console.log(current_streak_cookie);
+
 // Função é executada ao carregar a página
 addEventListener("DOMContentLoaded", async (event) => {
   // verifica se já possui o cookie com a tentativa atual
