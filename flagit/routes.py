@@ -4,10 +4,10 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 
 from flag_api import get_random_flag, get_countries_name
-from fastapi.responses import JSONResponse
 
 templates = Jinja2Templates(directory="templates")
 router = APIRouter()
+
 
 @router.get("/", response_class=HTMLResponse)
 async def home(request: Request):
@@ -36,6 +36,7 @@ async def guess(request: Request):
         message = f"Errado! A resposta correta era {correct_flag}."
 
     return {"message": message, "correct": is_correct}
+
 
 @router.get("/get_names")
 async def get_names():
