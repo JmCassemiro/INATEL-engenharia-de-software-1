@@ -93,7 +93,8 @@
 
   .btn {
     padding: 12px 20px;
-    border-radius: 16px;
+    border-radius: 12px;
+    height: 90%;
     border: none;
     background: linear-gradient(135deg, #60a5fa, #6ee7b7);
     color: #041018;
@@ -102,6 +103,7 @@
     cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    font-size: 14px;
   }
 
   .btn:hover {
@@ -112,4 +114,11 @@
 
   .btn:active {
     transform: translateY(1px);
+  }
+
+  .swal-footer {
+    background-color: rgb(245, 248, 250);
+    margin-top: 32px;
+    border-top: 1px solid #E9EEF1;
+    overflow: hidden;
   }

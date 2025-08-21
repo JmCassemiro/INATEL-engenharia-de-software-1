@@ -1,4 +1,3 @@
-
 // Buscando id's no html
 const form = document.getElementById('guess-form');
 const feedback = document.getElementById('feedback');
@@ -9,8 +8,6 @@ const best_streak = document.getElementById('best_streak');
 // Buscando dados no cookie do navegador
 let current_streak_cookie = get_cookie("current_streak");
 let best_streak_cookie = get_cookie("best_streak");
-
-console.log(current_streak_cookie);
 
 // Função é executada ao carregar a página
 addEventListener("DOMContentLoaded", async (event) => {
@@ -66,12 +63,20 @@ form.addEventListener('submit', async (e) => {
     });
 
     const data = await res.json();
-    alert(data.message)
-    if (data.correct) { // Usuário acertou, incrementa 1 no current_streak
+    if (data.is_guess_correct) { // Usuário acertou, incrementa 1 no current_streak
       if (current_streak_cookie !== null && current_streak_cookie !== undefined) { // Se cookie === 0, if entende como false
         current_streak_cookie += 1;
         document.cookie = `current_streak=${current_streak_cookie}`
         current_streak.textContent = `Pontos: ${current_streak_cookie}`;
+        swal("Parabéns!", "Você acertou o país.", "success");
+        swal({
+          title: "Parabéns!",
+          text: "Você acertou o país.",
+          icon: "success",
+        })
+          .then(_ => {
+            window.location.reload();
+          });
       } else { // Caso tenha acertado de primeira e ainda não tenha variável nos cookies
         document.cookie = `current_streak=1`;
         current_streak.textContent = `Pontos: 1`;
@@ -86,10 +91,19 @@ form.addEventListener('submit', async (e) => {
     } else { // Caso usuário tenha errado, streak volta pra zero
       document.cookie = `current_streak=0`;
       current_streak.textContent = `Pontos: 0`;
+
+      swal({
+        title: "Errooou!",
+        text: "A resposta correta era " + data.correct_flag,
+        icon: "error",
+      })
+        .then(_ => {
+          window.location.reload();
+        });
     }
 
     // recarrega a página
-    window.location.reload();
+    // window.location.reload();
   } catch (err) {
     // Qualquer erro de script solta no console do navegador
     console.log(`Error: ${err.message}`)
