@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>FlagIt — Adivinhe a Bandeira</title>
   <link rel="stylesheet" href="../static/styles.css" />
+  <link rel="icon" type="image/x-icon" href="../static/favicon.ico">
 </head>
 
 <body>
@@ -21,7 +22,9 @@
       <img src="{{ flag_url }}" alt="Bandeira do país para adivinhar" />
     </section>
     <form id="guess-form" action="/guess" method="post" autocomplete="off">
-      <input class="input" type="text" name="answer" id="answer" placeholder="Digite o nome do país" autofocus />
+      <input class="input" type="text" name="answer" id="answer" placeholder="Digite o nome do país" autofocus
+        list="suggestions" />
+      <datalist id="suggestions"></datalist>
       <button class="btn" type="submit">Enviar</button>
     </form>
   </main>

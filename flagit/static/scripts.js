@@ -11,7 +11,7 @@ let current_streak_cookie = get_cookie("current_streak");
 let best_streak_cookie = get_cookie("best_streak");
 
 // Função é executada ao carregar a página
-addEventListener("DOMContentLoaded", (event) => {
+addEventListener("DOMContentLoaded", async (event) => {
   // verifica se já possui o cookie com a tentativa atual
   if (current_streak_cookie) {
     current_streak.textContent = `Pontos: ${current_streak_cookie}`
@@ -29,6 +29,21 @@ addEventListener("DOMContentLoaded", (event) => {
     document.cookie = "best_streak=0"
     best_streak.textContent = `Melhor tentativa: ${best_streak_cookie}`
   }
+
+  // Adicionando sugestões no input
+  const countries_datalist = document.getElementById("suggestions");
+  try {
+    const res = await fetch('/get_names');
+    const data = await res.json();
+    data.forEach(name => {
+      const option = document.createElement("option");
+      option.value = name;
+      countries_datalist.appendChild(option);
+    });
+  } catch (err) {
+    console.error("Erro ao buscar países:", err);
+  }
+
 
 });
 

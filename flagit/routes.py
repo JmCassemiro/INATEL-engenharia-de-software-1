@@ -3,26 +3,22 @@ from fastapi import APIRouter, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 
-from flag_api import get_random_flag
+from flag_api import get_random_flag, get_countries_name
+from fastapi.responses import JSONResponse
 
 templates = Jinja2Templates(directory="templates")
 router = APIRouter()
 
-
 @router.get("/", response_class=HTMLResponse)
 async def home(request: Request):
-    flag_data = await get_random_flag()
-
-    random_number = random.randint(0, len(flag_data) - 1)
-    flag = flag_data[random_number]["flags"]["png"]
-    name = flag_data[random_number]["name"]["common"]
+    country = await get_random_flag()
 
     response = templates.TemplateResponse(
         "index.html",
-        {"request": request, "flag_url": flag},
+        {"request": request, "flag_url": country["flag"]},
     )
 
-    response.set_cookie(key="correct_country", value=name)
+    response.set_cookie(key="correct_country", value=country["name"])
 
     return response
 
@@ -40,3 +36,8 @@ async def guess(request: Request):
         message = f"Errado! A resposta correta era {correct_flag}."
 
     return {"message": message, "correct": is_correct}
+
+@router.get("/get_names")
+async def get_names():
+    countries = await get_countries_name()
+    return countries
