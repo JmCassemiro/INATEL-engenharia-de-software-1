@@ -1,0 +1,92 @@
+
+// Buscando id's no html
+const form = document.getElementById('guess-form');
+const feedback = document.getElementById('feedback');
+const answerInput = document.getElementById('answer');
+const current_streak = document.getElementById('current_streak');
+const best_streak = document.getElementById('best_streak');
+
+// Buscando dados no cookie do navegador
+let current_streak_cookie = get_cookie("current_streak");
+let best_streak_cookie = get_cookie("best_streak");
+
+// Função é executada ao carregar a página
+addEventListener("DOMContentLoaded", (event) => {
+  // verifica se já possui o cookie com a tentativa atual
+  if (current_streak_cookie) {
+    current_streak.textContent = `Pontos: ${current_streak_cookie}`
+
+  } else { // é criado caso ainda não tenha no cookie
+    document.cookie = "current_streak=0"
+    current_streak.textContent = `Pontos: ${current_streak_cookie}`
+  }
+
+  // Verifica se já possui a melhor tentativa no cookie
+  if (best_streak_cookie) {
+    best_streak.textContent = `Melhor tentativa: ${best_streak_cookie}`
+
+  } else { // é criado caso ainda não tenha no cookie
+    document.cookie = "best_streak=0"
+    best_streak.textContent = `Melhor tentativa: ${best_streak_cookie}`
+  }
+
+});
+
+// Ao enviar o formulário
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  // Pega os dados do formulário
+  const formData = new FormData(form);
+  const answer = { answer: formData.get('answer') };
+
+  // JSON enviado pro FastAPI
+  try {
+    const res = await fetch('/guess', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(answer),
+    });
+
+    const data = await res.json();
+    alert(data.message)
+    if (data.correct) { // Usuário acertou, incrementa 1 no current_streak
+      if (current_streak_cookie !== null && current_streak_cookie !== undefined) { // Se cookie === 0, if entende como false
+        current_streak_cookie += 1;
+        document.cookie = `current_streak=${current_streak_cookie}`
+        current_streak.textContent = `Pontos: ${current_streak_cookie}`;
+      } else { // Caso tenha acertado de primeira e ainda não tenha variável nos cookies
+        document.cookie = `current_streak=1`;
+        current_streak.textContent = `Pontos: 1`;
+      }
+
+      if (current_streak_cookie > best_streak_cookie) {
+        best_streak_cookie = current_streak_cookie;
+        best_streak.textContent = `Melhor tentativa: ${best_streak_cookie}`;
+        document.cookie = `best_streak=${best_streak_cookie}`;
+      }
+
+    } else { // Caso usuário tenha errado, streak volta pra zero
+      document.cookie = `current_streak=0`;
+      current_streak.textContent = `Pontos: 0`;
+    }
+
+    // recarrega a página
+    window.location.reload();
+  } catch (err) {
+    // Qualquer erro de script solta no console do navegador
+    console.log(`Error: ${err.message}`)
+  }
+});
+
+function get_cookie(id) {
+  const cookies = document.cookie.split(";");
+  for (const cookie of cookies) {
+    if (cookie.includes(id)) {
+      const cookieArray = cookie.split("=");
+      const value = parseInt(cookieArray[cookieArray.length - 1]);
+      return value;
+    }
+  }
+  return null;
+}
