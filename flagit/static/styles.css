@@ -58,16 +58,16 @@
   .flag-wrap {
     display: grid;
     place-items: center;
-    aspect-ratio: 4/3;
     border-radius: calc(var(--radius) - 6px);
     overflow: hidden;
     margin: 10px 0 22px;
+    min-height: 250px;
   }
 
-  .flag-wrap img {
-    width: 100%;
-    height: 100%;
-  }
+    .flag-wrap img {
+      width: 100%;
+      height: 100%;
+    }
 
   form {
     display: grid;
