@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FlagIt — Adivinhe a Bandeira</title>
+  <link rel="stylesheet" href="../static/styles.css" />
+  <link rel="icon" type="image/x-icon" href="../static/favicon.ico">
+</head>
+
+<body>
+  <main class="card">
+    <header class="header">
+      <h1 class="title">FlagIt — Adivinhe a Bandeira</h1>
+      <div class="streak-container">
+        <h5 id="current_streak">Pontos: </h5>
+        <h5 id="best_streak">Melhor tentativa: </h5>
+      </div>
+    </header>
+    <section class="flag-wrap">
+      <img src="{{ flag_url }}" alt="Bandeira do país para adivinhar" />
+    </section>
+    <form id="guess-form" action="/guess" method="post" autocomplete="off">
+      <input class="input" type="text" name="answer" id="answer" placeholder="Digite o nome do país" autofocus
+        list="suggestions" />
+      <datalist id="suggestions"></datalist>
+      <button class="btn" type="submit">Enviar</button>
+    </form>
+  </main>
+  <script src="../static/scripts.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</body>
+
+</html>
