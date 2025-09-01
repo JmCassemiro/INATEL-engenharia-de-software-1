@@ -101,9 +101,6 @@ form.addEventListener('submit', async (e) => {
           window.location.reload();
         });
     }
-
-    // recarrega a página
-    // window.location.reload();
   } catch (err) {
     // Qualquer erro de script solta no console do navegador
     console.log(`Error: ${err.message}`)
