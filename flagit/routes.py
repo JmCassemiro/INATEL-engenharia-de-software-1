@@ -27,14 +27,14 @@ async def guess(request: Request):
     data = await request.json()
     correct_flag = request.cookies.get("correct_country")
 
-    is_guess_corret = False
+    is_guess_correct = False
     if data["answer"].lower() == correct_flag.lower():
         message = "Parabéns! Você acertou!"
-        is_guess_corret = True
+        is_guess_correct = True
     else:
         correct_flag = correct_flag
 
-    return {"correct_flag": correct_flag, "is_guess_correct": is_guess_corret}
+    return {"correct_flag": correct_flag, "is_guess_correct": is_guess_correct}
 
 
 @router.get("/get_names")
