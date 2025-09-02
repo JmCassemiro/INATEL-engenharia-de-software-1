@@ -18,8 +18,9 @@ async def home(request: Request):
 
     # renderiza o template com a bandeira
     response = templates.TemplateResponse(
+        request,
         "index.html",
-        {"request": request, "flag_url": country["flag"]},
+        {"flag_url": country["flag"]},
     )
 
     # seta o cookie com o país correto
