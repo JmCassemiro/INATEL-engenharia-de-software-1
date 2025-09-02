@@ -48,6 +48,23 @@ FlagIt é um jogo web simples onde você deve adivinhar o país correspondente �
 - Receba feedback imediato sobre sua resposta.
 - Se correto, a página recarregará com uma nova bandeira.
 
+## Testes
+Para rodar os testes do projeto, utilize o framework `pytest`. Os testes utilizam o `TestClient` do FastAPI para simular requisições HTTP à aplicação, permitindo validar as rotas e respostas do servidor. Além disso, funções assíncronas são mockadas para garantir que os testes sejam determinísticos e independentes de fatores externos.
+
+### Passos para rodar os testes:
+1. Certifique-se de que o ambiente virtual está ativado.
+2. Instale as dependências de teste (se houver um arquivo `requirements-test.txt` ou similar):
+   ```bash
+   pip install -r requirements-test.txt
+   ```
+3. Execute os testes com:
+   ```bash
+   pytest
+   ```
+
+### Observações:
+- O uso do `TestClient` permite testar rotas FastAPI sem a necessidade de rodar o servidor manualmente.
+- Para funções assíncronas, utilize mocks com bibliotecas como `unittest.mock` para simular o comportamento esperado e controlar os retornos durante os testes.
+
 ## Licença
 Este projeto está licenciado sob a Licença MIT. Veja o arquivo LICENSE para mais detalhes.
-

@@ -4,7 +4,11 @@ from fastapi.templating import Jinja2Templates
 
 from flag_api import get_random_flag, get_countries_name
 
-templates = Jinja2Templates(directory="templates")
+import os
+from fastapi.templating import Jinja2Templates
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+templates = Jinja2Templates(directory=os.path.join(BASE_DIR, "templates"))
 router = APIRouter()
 
 
@@ -12,11 +16,14 @@ router = APIRouter()
 async def home(request: Request):
     country = await get_random_flag()
 
+    # renderiza o template com a bandeira
     response = templates.TemplateResponse(
+        request,
         "index.html",
-        {"request": request, "flag_url": country["flag"]},
+        {"flag_url": country["flag"]},
     )
 
+    # seta o cookie com o país correto
     response.set_cookie(key="correct_country", value=country["name"])
 
     return response
@@ -27,6 +34,7 @@ async def guess(request: Request):
     data = await request.json()
     correct_flag = request.cookies.get("correct_country")
 
+    # verifica se o palpite está correto
     is_guess_correct = False
     if data["answer"].lower() == correct_flag.lower():
         message = "Parabéns! Você acertou!"
@@ -34,6 +42,7 @@ async def guess(request: Request):
     else:
         correct_flag = correct_flag
 
+    # retorna se o palpite está correto junto com o país correto
     return {"correct_flag": correct_flag, "is_guess_correct": is_guess_correct}
 
 
