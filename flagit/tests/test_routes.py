@@ -13,6 +13,12 @@ app = FastAPI()
 app.include_router(router)
 client = TestClient(app)
 
+def test_home_status_code():
+    response = client.get("/")
+    
+    # verifica se a resposta é 200
+    assert response.status_code == 200
+
 # testa se a rota home retorna 200 e seta o cookie
 def test_home_sets_cookie():
     response = client.get("/")
