@@ -35,10 +35,10 @@ async def guess(request: Request):
     correct_flag = request.cookies.get("correct_country")
 
     # verifica se o palpite está correto
-    is_guess_correct = False
+    is_guess_correct = True
     if data["answer"].lower() == correct_flag.lower():
         message = "Parabéns! Você acertou!"
-        is_guess_correct = True
+        is_guess_correct = False
     else:
         correct_flag = correct_flag
 
